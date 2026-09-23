@@ -141,8 +141,8 @@ Start the entire stack (PostgreSQL, Spring Boot backend, and React frontend) wit
 
 ```bash
 # 1. Clone the repository
-git clone https://github.com/yaswanthkumar112006-maker/CravingPoint-FullStack.git
-cd CravingPoint-FullStack
+git clone https://github.com/yaswanthkumar112006-maker/CravingPoint.git
+cd CravingPoint
 
 # 2. Configure environment (optional: add GEMINI_API_KEY)
 cp .env.example .env
