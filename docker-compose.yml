@@ -1,0 +1,58 @@
+version: '3.8'
+
+services:
+  # PostgreSQL Database Service
+  postgres:
+    image: postgres:15-alpine
+    container_name: cravingpoint-postgres
+    restart: always
+    environment:
+      POSTGRES_DB: smart_delivery_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: root@123
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d smart_delivery_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # Spring Boot Java Backend Service
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: cravingpoint-backend
+    restart: always
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/smart_delivery_db
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: root@123
+      SERVER_PORT: 8080
+    ports:
+      - "8080:8080"
+
+  # React + Vite + Express Frontend & Gemini AI Service
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: cravingpoint-frontend
+    restart: always
+    depends_on:
+      - backend
+    environment:
+      PORT: 3050
+      VITE_BACKEND_URL: http://backend:8080
+      GEMINI_API_KEY: ${GEMINI_API_KEY:-}
+    ports:
+      - "3050:3050"
+
+volumes:
+  postgres_data:

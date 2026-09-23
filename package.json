@@ -1,0 +1,34 @@
+{
+  "name": "cravingpoint-fullstack",
+  "version": "1.0.0",
+  "description": "CravingPoint AI - Full Stack Intelligent Food Delivery Platform powered by Spring Boot 3, React 19, and Google Gemini AI",
+  "main": "index.js",
+  "scripts": {
+    "install:all": "npm --prefix frontend install",
+    "dev:frontend": "npm --prefix frontend run dev",
+    "dev:backend": "cd backend && (mvnw.cmd spring-boot:run || ./mvnw spring-boot:run)",
+    "dev": "concurrently -n \"BACKEND,FRONTEND\" -c \"blue,green\" \"npm run dev:backend\" \"npm run dev:frontend\"",
+    "build:frontend": "npm --prefix frontend run build",
+    "build:backend": "cd backend && (mvnw.cmd clean package -DskipTests || ./mvnw clean package -DskipTests)",
+    "build": "npm run build:frontend && npm run build:backend",
+    "start": "npm --prefix frontend start",
+    "docker:up": "docker-compose up --build",
+    "docker:down": "docker-compose down"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  },
+  "keywords": [
+    "spring-boot",
+    "react",
+    "typescript",
+    "gemini-ai",
+    "full-stack",
+    "postgresql",
+    "jwt",
+    "tailwind-css",
+    "food-delivery"
+  ],
+  "author": "Yaswanth Kumar",
+  "license": "Apache-2.0"
+}
